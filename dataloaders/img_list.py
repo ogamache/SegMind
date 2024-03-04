@@ -38,10 +38,10 @@ def make_image_list(opt,subset='train'):
     dataset_path=os.path.join(opt.dataset_root,opt.dataset_name).replace('\\','/')  # 数据集绝对路径
     if opt.dataset_name=='LoveDA':
         subset_from=opt.subset_from_dict[subset]  # 数据集来源名字
-        rs_path = os.path.join(dataset_path, subset_from).replace('\\', '/')  # 子集遥感图像路径
-        lab_path = os.path.join(dataset_path, subset_from).replace('\\', '/')  # 子集标签图像路径
-        rs_id_list = [rs_i for rs_i in os.listdir(rs_path+"/images_png")]  # 子集遥感图像名字列表
-        lab_id_list = [rs_i for rs_i in os.listdir(lab_path+"/masks_png")]  # 子集遥感图像名字列表
+        rs_path = os.path.join(dataset_path, subset_from).replace('\\', '/')+"/images_png"  # 子集遥感图像路径
+        lab_path = os.path.join(dataset_path, subset_from).replace('\\', '/')+"/masks_png"  # 子集标签图像路径
+        rs_id_list = [rs_i for rs_i in os.listdir(rs_path)]  # 子集遥感图像名字列表
+        lab_id_list = [rs_i for rs_i in os.listdir(lab_path)]  # 子集遥感图像名字列表
         list2txt(rs_path, rs_id_list, lab_path, lab_id_list, f'{opt.dataset_txt_root}/{opt.short_name}_{subset}.txt')
 
     elif opt.dataset_name=='DeepGlobe_LandCover':

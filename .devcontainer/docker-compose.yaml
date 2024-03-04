@@ -1,9 +1,9 @@
-version: '2.23'
+version: '3'
 services:
   service_container_project:
     build:
       context: ../
-      dockerfile: ./docker/docker_cuda_11/Dockerfile
+      dockerfile: ./docker/Dockerfile
     container_name: project_container
     stdin_open: true
     tty: true
