@@ -57,12 +57,12 @@ def parse_opt():
     opt=parser.parse_args()
 
     opt.root=ROOT
-    opt.dataset_root='D:/dataset'
+    opt.dataset_root='./online_datasets'
     opt.dataset_name=dataset_name_dict[opt.dataset_i]
     opt.short_name=dateset_short_name_dict[opt.dataset_i]
     opt.extra_word_half=str(opt.net_i)+str(opt.extra_word_half_half)
     opt.extra_word=opt.short_name+str(opt.extra_word_half)
-    opt.subset_from_dict={'train': 'train', 'validate': 'validate', 'test': 'test'}
+    opt.subset_from_dict={'train': 'Train/Rural', 'validate': 'Val/Rural', 'test': 'Test/Rural'}
     opt.ignore_class_num={1:1, 2:1, 3:0}[opt.dataset_i]
     opt.ignore_index=-1
     opt.class_num=len(all_label_name_dict[opt.dataset_i])-opt.ignore_class_num

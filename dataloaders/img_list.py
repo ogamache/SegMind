@@ -2,10 +2,12 @@
 import os
 import random
 
-def txt2list(txt_path):
+def txt2list(opt, txt_path):
     """读取并返回遥感图像和标签图像的绝对路径列表，txt_path是txt文件的绝对路径"""
     rs_list=[]  # 初始化遥感图像名字列表
     lab_list=[]  # 初始化标签图像名字列表
+    make_image_list(opt, subset="train")
+    make_image_list(opt, subset="validate")
     txt_file=open(txt_path,'r')
     for line in txt_file:  # 遍历每一行
         rs_list.append(line.split(',')[0])
@@ -14,7 +16,7 @@ def txt2list(txt_path):
 
 def read_image_list(opt,subset='train'):
     """读取遥感图像名字列表和标签图像名字列表，subset为子数据集名字(train,validate,test)"""
-    return txt2list(f'{opt.dataset_txt_root}/{opt.short_name}_{subset}.txt')  # 返回遥感图像绝对路径列表和标签图像绝对路径列表
+    return txt2list(opt, f'{opt.dataset_txt_root}/{opt.short_name}_{subset}.txt')  # 返回遥感图像绝对路径列表和标签图像绝对路径列表
 
 def list2txt(rs_path,rs_list,lab_path,lab_list,txt_path,txt_mode='w'):
     """将遥感图像绝对路径列表rs_path+rs_list和标签图像绝对路径列表lab_path+lab_list写入绝对路径txt_path
@@ -38,8 +40,8 @@ def make_image_list(opt,subset='train'):
         subset_from=opt.subset_from_dict[subset]  # 数据集来源名字
         rs_path = os.path.join(dataset_path, subset_from).replace('\\', '/')  # 子集遥感图像路径
         lab_path = os.path.join(dataset_path, subset_from).replace('\\', '/')  # 子集标签图像路径
-        rs_id_list = [rs_i for rs_i in os.listdir(rs_path) if rs_i.endswith("sat.png")]  # 子集遥感图像名字列表
-        lab_id_list = [rs_i for rs_i in os.listdir(lab_path)  if rs_i.endswith('lab.png')]  # 子集遥感图像名字列表
+        rs_id_list = [rs_i for rs_i in os.listdir(rs_path+"/images_png")]  # 子集遥感图像名字列表
+        lab_id_list = [rs_i for rs_i in os.listdir(lab_path+"/masks_png")]  # 子集遥感图像名字列表
         list2txt(rs_path, rs_id_list, lab_path, lab_id_list, f'{opt.dataset_txt_root}/{opt.short_name}_{subset}.txt')
 
     elif opt.dataset_name=='DeepGlobe_LandCover':
