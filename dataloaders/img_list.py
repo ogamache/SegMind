@@ -6,8 +6,8 @@ def txt2list(opt, txt_path):
     """读取并返回遥感图像和标签图像的绝对路径列表，txt_path是txt文件的绝对路径"""
     rs_list=[]  # 初始化遥感图像名字列表
     lab_list=[]  # 初始化标签图像名字列表
-    make_image_list(opt, subset="train")
-    make_image_list(opt, subset="validate")
+    # make_image_list(opt, subset="train") #OG
+    # make_image_list(opt, subset="validate") #OG
     txt_file=open(txt_path,'r')
     for line in txt_file:  # 遍历每一行
         rs_list.append(line.split(',')[0])
