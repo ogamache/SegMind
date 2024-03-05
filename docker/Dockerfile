@@ -1,4 +1,5 @@
 FROM nvidia/cuda:11.4.3-base-ubuntu20.04
+# FROM nvidia/cuda:12.3.2-base-ubuntu20.04 # Cuda12
 
 SHELL ["/bin/bash", "-c"]
 
@@ -30,10 +31,6 @@ RUN apt-get update && \
 RUN useradd -u ${MY_UID} -m ${USERNAME} -s /bin/bash  && yes ${PASSWORD} | passwd ${USERNAME}
 RUN usermod -aG sudo ${USERNAME}
 
-# Give ssh key github
-RUN mkdir /home/user/.ssh
-RUN ssh-keygen -q -t rsa -N '' -f /home/user/.ssh/id_rsa
-
 # Install any python packages you need
 COPY ./requirements.txt requirements.txt
 
@@ -43,11 +40,14 @@ RUN python3 -m pip install --upgrade pip
 # Install PyTorch and torchvision
 RUN python3 -m pip install -r requirements.txt
 RUN pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
-# RUN pip3 install torch torchvision torchaudio
+# RUN pip3 install torch torchvision torchaudio # Cuda12
 
 USER ${USERNAME}
 ENV HOME=/home/user
 
+# Give ssh key github and autocompletion
+RUN mkdir /home/user/.ssh
+RUN ssh-keygen -q -t rsa -N '' -f /home/user/.ssh/id_rsa
 RUN echo -e "\n \
     source /usr/share/bash-completion/completions/git" >> /home/user/.bashrc
 
