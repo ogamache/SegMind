@@ -19,6 +19,7 @@ services:
             - driver: nvidia
               capabilities: [gpu]
     volumes:
+      - /dev/shm:/dev/shm
       - ../:/home/user/code
 
   
